@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--name 自定义View的名字 TextView-->
+    <declare-styleable name="CustomTextView">
+        <!-- name 属性名称
+        format 格式: string 文字  color 颜色
+                    dimension 宽高 字体大小  integer 数字
+                    reference 资源（drawable）
+         -->
+        <attr name="text" format="string" />
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="maxLength" format="integer" />
+        <attr name="background" format="reference|color" />
+        <!-- 枚举 -->
+        <attr name="inputType">
+            <enum name="number" value="1" />
+            <enum name="text" value="2" />
+            <enum name="password" value="3" />
+        </attr>
+    </declare-styleable>
+</resources>
