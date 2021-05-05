@@ -5,26 +5,31 @@ import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
+import android.text.TextUtils
 import android.util.AttributeSet
+import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import com.vurtnewk.ui.custom.R
 
 /**
  * Created by VurtneWk on 2021/5/2
+ * 继承View的
  */
 @Suppress("unused")
-class CustomTextView : AppCompatTextView {
+class CustomTextView : View {
 
     private val mPaint: Paint = Paint()
-    private var mText: String? = null
+    private var mText: String
     private var mColor: Int = Color.BLACK
     private var mTextSize = 15
+    private val bounds: Rect = Rect()
 
     //代码中在使用new CustomTextView(this)调用
-    constructor(context: Context) : super(context)
+    constructor(context: Context) : this(context, null)
 
     //layout中创建时调用
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
     //layout中创建时 且使用了 style 属性时调用
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -33,10 +38,10 @@ class CustomTextView : AppCompatTextView {
             defStyleAttr
     ) {
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomTextView)
-        mText = typedArray.getString(R.styleable.CustomTextView_text)
-        mColor = typedArray.getColor(R.styleable.CustomTextView_textColor, mColor)
+        mText = typedArray.getString(R.styleable.CustomTextView_cus_text) ?: ""
+        mColor = typedArray.getColor(R.styleable.CustomTextView_cus_textColor, mColor)
         //15 15px 15sp?
-        mTextSize = typedArray.getDimensionPixelSize(R.styleable.CustomTextView_textSize, mTextSize)
+        mTextSize = typedArray.getDimensionPixelSize(R.styleable.CustomTextView_cus_textSize, mTextSize)
         //回收
         typedArray.recycle()
         //配置Paint
@@ -60,18 +65,35 @@ class CustomTextView : AppCompatTextView {
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
 
         //1.确定的值,不需要计算,给的多少就是多少
-        val width = MeasureSpec.getSize(widthMeasureSpec)
+        var width = MeasureSpec.getSize(widthMeasureSpec)
+        var height = MeasureSpec.getSize(heightMeasureSpec)
 
         //2.给的是wrap_content 需要计算
-        when (widthMode) {
+        width = when (widthMode) {
             MeasureSpec.AT_MOST -> {
                 //计算的宽度 与 字体长度、大小有关，使用画笔测量
-
+                if (TextUtils.isEmpty(mText)) {
+                    mText = ""
+                }
+                mPaint.getTextBounds(mText, 0, mText.length, bounds)
+                bounds.width()
             }
-
-
+            else -> {
+                width
+            }
         }
-
+        height = when (heightMode) {
+            MeasureSpec.AT_MOST -> {
+                //计算的宽度 与 字体长度、大小有关，使用画笔测量
+                mPaint.getTextBounds(mText, 0, mText.length, bounds)
+                bounds.height()
+            }
+            else -> {
+                height
+            }
+        }
+        //设置控件宽高
+        setMeasuredDimension(width, height)
     }
 
     /**
@@ -86,5 +108,13 @@ class CustomTextView : AppCompatTextView {
         canvas.drawArc();
         // 画圆
         canvas.drawCircle();*/
+        //x 开始的位置
+        //y 基线 baseline 具体可看资料data/Paint_FontMetrics
+        //dy 中线到baseline的距离
+        //这里的计算参考图片
+        val dy = (mPaint.fontMetricsInt.bottom - mPaint.fontMetricsInt.top) / 2 - mPaint.fontMetricsInt.bottom
+        val baseline = (height / 2).toFloat() + dy
+        canvas.drawText(mText, 0F, baseline, mPaint)
+
     }
 }

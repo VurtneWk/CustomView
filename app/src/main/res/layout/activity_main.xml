@@ -9,7 +9,9 @@
     <com.vurtnewk.ui.custom.lesson01.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        app:cus_text="a啊啊a啊啊a啊啊a啊啊"
+        app:cus_textSize="20sp"
+        android:background="@android:color/holo_blue_bright"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
