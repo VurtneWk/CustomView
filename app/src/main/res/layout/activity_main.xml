@@ -9,6 +9,7 @@
     <com.vurtnewk.ui.custom.lesson01.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="15dp"
         app:cus_text="a啊啊a啊啊a啊啊a啊啊"
         app:cus_textSize="20sp"
         android:background="@android:color/holo_blue_bright"

@@ -8,16 +8,21 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import com.vurtnewk.ui.custom.R
 
 /**
  * Created by VurtneWk on 2021/5/2
- * 继承View的
+ * 注意:直接继承View的，而不是TextView
  */
 @Suppress("unused")
 class CustomTextView : View {
+
+    companion object {
+        val TAG = CustomTextView::class.java.simpleName.toString()
+    }
 
     private val mPaint: Paint = Paint()
     private var mText: String
@@ -76,7 +81,8 @@ class CustomTextView : View {
                     mText = ""
                 }
                 mPaint.getTextBounds(mText, 0, mText.length, bounds)
-                bounds.width()
+                // + paddingLeft + paddingRight 才能试这个属性生效
+                bounds.width() + paddingLeft + paddingRight
             }
             else -> {
                 width
@@ -86,7 +92,7 @@ class CustomTextView : View {
             MeasureSpec.AT_MOST -> {
                 //计算的宽度 与 字体长度、大小有关，使用画笔测量
                 mPaint.getTextBounds(mText, 0, mText.length, bounds)
-                bounds.height()
+                bounds.height() + paddingTop + paddingBottom
             }
             else -> {
                 height
@@ -110,11 +116,15 @@ class CustomTextView : View {
         canvas.drawCircle();*/
         //x 开始的位置
         //y 基线 baseline 具体可看资料data/Paint_FontMetrics
-        //dy 中线到baseline的距离
+        //dy 中线到baseline的距离  top是一个负值
         //这里的计算参考图片
+        Log.d(TAG, "bottom:${mPaint.fontMetricsInt.bottom},top:${mPaint.fontMetricsInt.top}")
         val dy = (mPaint.fontMetricsInt.bottom - mPaint.fontMetricsInt.top) / 2 - mPaint.fontMetricsInt.bottom
+        Log.d(TAG, "dy = $dy")
+        Log.d(TAG, "height/2 -> ${(height / 2)} and ${(mPaint.fontMetricsInt.bottom - mPaint.fontMetricsInt.top) / 2}")
         val baseline = (height / 2).toFloat() + dy
-        canvas.drawText(mText, 0F, baseline, mPaint)
+
+        canvas.drawText(mText, paddingLeft.toFloat(), baseline, mPaint)
 
     }
 }
