@@ -27,6 +27,11 @@ class ColorTextView : AppCompatTextView {
     private val bounds = Rect()
     private var mCurrentProgress = 0.55F
 
+    //属性只在第一次被访问的时候才会计算，之后则会将之前的计算结果缓存起来供后续调用
+    private val baseline by lazy(LazyThreadSafetyMode.NONE) {
+        paint.baseline(height)
+    }
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -63,44 +68,33 @@ class ColorTextView : AppCompatTextView {
     override fun onDraw(canvas: Canvas?) {
 //        super.onDraw(canvas) 自己画
         canvas ?: return
+        //获取字体的宽度
+        paint.getTextBounds(text.toString(), 0, text.length, bounds)
 
         //根据进度计算中间值
         val middle = mCurrentProgress * width
-
-        //画布裁剪
-        canvas.save()
-        canvas.clipRect(0F, 0F, middle, height.toFloat())
-        //获取字体的宽度
-        mOriginPaint.getTextBounds(text.toString(), 0, text.length, bounds)
-        //文字起始坐标X
-        val x = width / 2 - bounds.width().toFloat() / 2
-        //文字的y坐标
-//        val baseline =
-//            height / 2 - ((mChangePaint.fontMetrics.bottom - mChangePaint.fontMetrics.top) / 2 - mChangePaint.fontMetrics.bottom)
-        val baseline = mChangePaint.baseline(height)
-        Logger.d("baseline:$baseline , height:$height")
-        canvas.drawText(text.toString(), x, baseline, mOriginPaint)
-        canvas.restore()
-        //绘制变色区域
-
-        //画布裁剪
-        canvas.save()
-        canvas.clipRect(middle, 0F, width.toFloat(), height.toFloat())
-        canvas.drawText(text.toString(), x, baseline, mChangePaint)
-        canvas.restore()
+        //绘制未变色区域 从0到计算出的middle值
+        drawCustomText(canvas, mOriginPaint, 0F, middle)
+        //绘制变色区域 从middle值到文本宽度 (这里传的值还有问题.)
+        drawCustomText(canvas, mChangePaint, middle, width.toFloat())
     }
 
-
-    fun drawText(canvas: Canvas, paint: Paint, start: Float, baseline: Float) {
+    /**
+     * @param start 裁剪画布的起始位置
+     * @param end 裁剪画布的结束位置
+     */
+    private fun drawCustomText(canvas: Canvas, paint: Paint, start: Float, end: Float) {
+        //开始绘制
         canvas.save()
-        canvas.drawText(text.toString(), start, baseline, paint)
+        canvas.clipRect(start, 0F, end, height.toFloat())
+        canvas.drawText(text.toString(), width / 2 - bounds.width().toFloat() / 2, baseline, paint)
         canvas.restore()
     }
 
 }
 
 fun Paint.baseline(height: Int): Float {
-    return height / 2 - ((this.fontMetrics.bottom - this.fontMetrics.top) / 2 - this.fontMetrics.bottom)
+    return height / 2 + ((this.fontMetrics.bottom - this.fontMetrics.top) / 2 - this.fontMetrics.bottom)
 }
 
 

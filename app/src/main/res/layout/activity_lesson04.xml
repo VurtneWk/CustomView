@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".lesson04.Lesson04Activity"
     tools:ignore="HardcodedText">
 
     <com.vurtnewk.ui.custom.lesson04.ColorTextView
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/holo_blue_bright"
         android:text="Hello World!"
         android:textSize="20sp"
         app:changeColor="@android:color/holo_red_dark"
         app:originColor="@color/black" />
 
-</LinearLayout>
+</RelativeLayout>
