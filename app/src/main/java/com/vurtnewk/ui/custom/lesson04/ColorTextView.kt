@@ -40,26 +40,26 @@ class ColorTextView : AppCompatTextView {
             defStyleAttr
     ) {
 
-        val typedArray =
-                context.obtainStyledAttributes(attrs, R.styleable.ColorTextView)
-
-        originColor = typedArray.getColor(R.styleable.ColorTextView_originColor, originColor)
-        changeColor = typedArray.getColor(R.styleable.ColorTextView_changeColor, changeColor)
-        typedArray.recycle()
+        context.obtainStyledAttributes(attrs, R.styleable.ColorTextView).apply {
+            originColor = getColor(R.styleable.ColorTextView_originColor, originColor)
+            changeColor = getColor(R.styleable.ColorTextView_changeColor, changeColor)
+            recycle()
+        }
 
         mOriginPaint.apply {
             color = originColor
             isAntiAlias = true
             textSize = this@ColorTextView.textSize
-            isDither = true//防抖动？
+            isDither = true//防抖动
         }
 
         mChangePaint.apply {
             color = changeColor
             isAntiAlias = true
             textSize = this@ColorTextView.textSize
-            isDither = true//防抖动？
+            isDither = true//防抖动
         }
+
     }
 
     /**
