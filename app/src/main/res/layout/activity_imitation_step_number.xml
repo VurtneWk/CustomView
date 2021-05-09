@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".lesson03.ImitationQQStepNumberActivity">
+
+
+    <com.vurtnewk.ui.custom.lesson03.ImitationQQStepNumberView
+        android:id="@+id/mImitationQQStepNumberView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:borderWidth="6dp"
+        app:innerColor="@android:color/holo_red_dark"
+        app:outerColor="@color/black"
+        app:textColor="@android:color/holo_blue_light"
+        app:textSize="12sp" />
+
+    <Button
+        android:id="@+id/mBtnAdd"
+        android:text="@string/addStep"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -119,9 +119,12 @@ class CustomTextView : View {
         //dy 中线到baseline的距离  top是一个负值
         //这里的计算参考图片
         Log.d(TAG, "bottom:${mPaint.fontMetricsInt.bottom},top:${mPaint.fontMetricsInt.top}")
+
         val dy = (mPaint.fontMetricsInt.bottom - mPaint.fontMetricsInt.top) / 2 - mPaint.fontMetricsInt.bottom
+
         Log.d(TAG, "dy = $dy")
         Log.d(TAG, "height/2 -> ${(height / 2)} and ${(mPaint.fontMetricsInt.bottom - mPaint.fontMetricsInt.top) / 2}")
+
         val baseline = (height / 2).toFloat() + dy
 
         canvas.drawText(mText, paddingLeft.toFloat(), baseline, mPaint)
