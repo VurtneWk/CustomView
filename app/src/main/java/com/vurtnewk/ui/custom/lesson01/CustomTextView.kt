@@ -10,7 +10,6 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import androidx.appcompat.widget.AppCompatTextView
 import com.vurtnewk.ui.custom.R
 
 /**
@@ -114,6 +113,8 @@ class CustomTextView : View {
         canvas.drawArc();
         // 画圆
         canvas.drawCircle();*/
+
+
         //x 开始的位置
         //y 基线 baseline 具体可看资料data/Paint_FontMetrics
         //dy 中线到baseline的距离  top是一个负值

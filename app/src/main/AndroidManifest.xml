@@ -12,6 +12,9 @@
         android:theme="@style/Theme.CustomView"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".lesson04.Lesson04Activity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".lesson03.ImitationQQStepNumberActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".MainActivity">

@@ -146,6 +146,12 @@ class ImitationQQStepNumberView : View {
             return
         }
         this.mCurrentStep = currentStep
+        /**
+         * invalidate 源码分析
+         * 一路往parent调用 invalidateChildInParent
+         * 最终再由最外层view调用draw()-> dispatchDraw()直到当前调用invalidate的View的onDraw()方法
+         * 牵连整个layout布局中的View
+         */
         invalidate()
     }
 }

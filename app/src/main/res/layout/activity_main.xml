@@ -13,6 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="lesson03——防QQ步数" />
+    <Button
+        android:id="@+id/mBtn04"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="lesson04" />
 
     <com.vurtnewk.ui.custom.lesson01.CustomTextView
         android:layout_width="wrap_content"

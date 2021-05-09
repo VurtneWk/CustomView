@@ -10,6 +10,7 @@ import com.orhanobut.logger.PrettyFormatStrategy
 /**
  * Created by VurtneWk on 2021/5/9
  */
+@Suppress("unused")
 class BaseApp : Application() {
 
     override fun onCreate() {

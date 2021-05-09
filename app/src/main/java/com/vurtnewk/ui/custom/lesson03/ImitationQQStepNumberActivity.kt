@@ -1,11 +1,17 @@
 package com.vurtnewk.ui.custom.lesson03
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.DecelerateInterpolator
 import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import com.vurtnewk.ui.custom.R
+
 
 class ImitationQQStepNumberActivity : AppCompatActivity() {
 
@@ -25,11 +31,28 @@ class ImitationQQStepNumberActivity : AppCompatActivity() {
 
         val mImitationQQStepNumberView =
             findViewById<ImitationQQStepNumberView>(R.id.mImitationQQStepNumberView)
-        mImitationQQStepNumberView.setMaxStep(100F)
-        var mCurrentStep = 20F
-        mImitationQQStepNumberView.setCurrentStep(mCurrentStep)
-        findViewById<Button>(R.id.mBtnAdd).setOnClickListener {
-            mImitationQQStepNumberView.setCurrentStep(mCurrentStep++)
+
+        mImitationQQStepNumberView.setMaxStep(4000F)
+
+
+        // 属性动画 后面讲的内容
+        val valueAnimator = ObjectAnimator.ofFloat(0f, 3000f)
+        valueAnimator.duration = 2000
+        valueAnimator.interpolator = DecelerateInterpolator()
+        valueAnimator.addUpdateListener { animation ->
+            val currentStep = animation.animatedValue as Float
+            mImitationQQStepNumberView.setCurrentStep(currentStep)
         }
+        valueAnimator.start()
+
+        //
+//        var mCurrentStep = 1000F
+        findViewById<Button>(R.id.mBtnAdd).setOnClickListener {
+            Toast.makeText(this, "已取消setOnClickListener", Toast.LENGTH_SHORT).show()
+//            mCurrentStep += 100
+//            mImitationQQStepNumberView.setCurrentStep(mCurrentStep)
+        }
+
+
     }
 }

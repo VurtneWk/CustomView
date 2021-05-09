@@ -19,6 +19,7 @@
             <enum name="cus_password" value="3" />
         </attr>
     </declare-styleable>
+
     <!--Les03 仿QQ运动步数的自定义View-->
     <declare-styleable name="ImitationQQStepNumberView">
         <attr name="outerColor" format="color" />
@@ -27,4 +28,11 @@
         <attr name="textSize" format="dimension" />
         <attr name="textColor" format="color" />
     </declare-styleable>
+
+    <!--Les04 一个View两种颜色-->
+    <declare-styleable name="ColorTextView">
+        <attr name="originColor" format="color" />
+        <attr name="changeColor" format="color" />
+    </declare-styleable>
+
 </resources>
