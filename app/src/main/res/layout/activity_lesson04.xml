@@ -10,6 +10,7 @@
     tools:ignore="HardcodedText">
 
     <com.vurtnewk.ui.custom.lesson04.ColorTextView
+        android:id="@+id/mColorTv"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_centerInParent="true"
@@ -18,5 +19,11 @@
         android:textSize="20sp"
         app:changeColor="@android:color/holo_red_dark"
         app:originColor="@color/black" />
+
+    <Button
+        android:id="@+id/mBtnChangeOrientation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="改变方向" />
 
 </RelativeLayout>

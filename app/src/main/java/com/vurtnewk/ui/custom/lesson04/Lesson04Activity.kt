@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import com.vurtnewk.ui.custom.R
 
 
@@ -20,6 +21,10 @@ class Lesson04Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson04)
+        val mColorTv: ColorTextView = findViewById(R.id.mColorTv)
+        findViewById<Button>(R.id.mBtnChangeOrientation).setOnClickListener {
+            mColorTv.rightToLeft = !mColorTv.rightToLeft
+        }
     }
 
 }

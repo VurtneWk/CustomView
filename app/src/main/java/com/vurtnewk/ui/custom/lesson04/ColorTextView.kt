@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import com.orhanobut.logger.Logger
 import com.vurtnewk.ui.custom.R
 
 /**
@@ -26,6 +25,11 @@ class ColorTextView : AppCompatTextView {
     private val mChangePaint = Paint()
     private val bounds = Rect()
     private var mCurrentProgress = 0.55F
+    var rightToLeft = false //控制字体颜色改变的方向
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     //属性只在第一次被访问的时候才会计算，之后则会将之前的计算结果缓存起来供后续调用
     private val baseline by lazy(LazyThreadSafetyMode.NONE) {
@@ -35,9 +39,9 @@ class ColorTextView : AppCompatTextView {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-            context,
-            attrs,
-            defStyleAttr
+        context,
+        attrs,
+        defStyleAttr
     ) {
 
         context.obtainStyledAttributes(attrs, R.styleable.ColorTextView).apply {
@@ -73,10 +77,22 @@ class ColorTextView : AppCompatTextView {
 
         //根据进度计算中间值
         val middle = mCurrentProgress * width
-        //绘制未变色区域 从0到计算出的middle值
-        drawCustomText(canvas, mOriginPaint, 0F, middle)
-        //绘制变色区域 从middle值到文本宽度 (这里传的值还有问题.)
-        drawCustomText(canvas, mChangePaint, middle, width.toFloat())
+
+        //从左到右 -- 从右到左
+        if (rightToLeft) {
+            //从右到左  00001111 右边的先变色
+            //绘制未变色区域 从0到计算出的middle值
+            drawCustomText(canvas, mOriginPaint, 0F, middle)
+            //绘制变色区域 从middle值到文本宽度 (这里传的值还有问题.)
+            drawCustomText(canvas, mChangePaint, middle, width.toFloat())
+        } else {
+            //从左到右 11110000 左边的先变色
+            //绘制未变色区域 middle-width
+            drawCustomText(canvas, mOriginPaint, middle, width.toFloat())
+            //绘制变色区域 从middle值到文本宽度 (这里传的值还有问题.)
+            drawCustomText(canvas, mChangePaint, 0F, middle)
+        }
+
     }
 
     /**
@@ -90,6 +106,7 @@ class ColorTextView : AppCompatTextView {
         canvas.drawText(text.toString(), width / 2 - bounds.width().toFloat() / 2, baseline, paint)
         canvas.restore()
     }
+
 
 }
 
