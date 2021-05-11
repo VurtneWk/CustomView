@@ -9,6 +9,11 @@
     tools:ignore="HardcodedText">
 
     <Button
+        android:id="@+id/mBtnTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TabLayout" />
+    <Button
         android:id="@+id/mBtn03"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
