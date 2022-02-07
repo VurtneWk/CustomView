@@ -64,6 +64,7 @@ class CustomTextView : View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         // 布局的宽高都是由这个方法指定
         // 指定控件的宽高，需要测量
+
         // 获取宽高的模式
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
@@ -115,19 +116,22 @@ class CustomTextView : View {
         canvas.drawCircle();*/
 
 
-        //x 开始的位置
-        //y 基线 baseline 具体可看资料data/Paint_FontMetrics
-        //dy 中线到baseline的距离  top是一个负值
-        //这里的计算参考图片
+        //x ：开始的位置
+        //y ：基线baseline 具体可看资料data/Paint_FontMetrics
+
+
+        //  top是一个负值
         Log.d(TAG, "bottom:${mPaint.fontMetricsInt.bottom},top:${mPaint.fontMetricsInt.top}")
 
+        //dy: 中线到baseline的距离
         val dy = (mPaint.fontMetricsInt.bottom - mPaint.fontMetricsInt.top) / 2 - mPaint.fontMetricsInt.bottom
-
         Log.d(TAG, "dy = $dy")
-        Log.d(TAG, "height/2 -> ${(height / 2)} and ${(mPaint.fontMetricsInt.bottom - mPaint.fontMetricsInt.top) / 2}")
 
+        Log.d(TAG, "height/2 -> ${(height / 2)} and ${(mPaint.fontMetricsInt.bottom - mPaint.fontMetricsInt.top) / 2}")
+        // 中线+中线到baseline的距离得baseline（也就是y）的坐标值
         val baseline = (height / 2).toFloat() + dy
 
+        //x = paddingLeft
         canvas.drawText(mText, paddingLeft.toFloat(), baseline, mPaint)
 
     }

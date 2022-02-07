@@ -16,7 +16,7 @@
         app:innerColor="@android:color/holo_red_dark"
         app:outerColor="@color/black"
         app:textColor="@android:color/holo_blue_light"
-        app:textSize="12sp" />
+        app:textSize="14sp" />
 
     <Button
         android:id="@+id/mBtnAdd"

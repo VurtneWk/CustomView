@@ -31,6 +31,7 @@ class TabLayoutTestActivity : AppCompatActivity() {
         }
     }
 
+
     private lateinit var mTabLayout: TabLayout
     private lateinit var mViewPager2: ViewPager2
 

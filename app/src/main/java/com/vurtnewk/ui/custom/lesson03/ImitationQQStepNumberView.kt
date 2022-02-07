@@ -3,8 +3,9 @@ package com.vurtnewk.ui.custom.lesson03
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.view.View
+import android.util.Log.d
 import com.orhanobut.logger.Logger
+import android.view.View
 import com.vurtnewk.ui.custom.R
 
 /**
@@ -37,10 +38,13 @@ class ImitationQQStepNumberView : View {
         //6.画外圆弧、内圆弧、文字
 
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ImitationQQStepNumberView)
+        //颜色
         mOuterColor = typedArray.getColor(R.styleable.ImitationQQStepNumberView_outerColor, mOuterColor)
         mInnerColor = typedArray.getColor(R.styleable.ImitationQQStepNumberView_innerColor, mInnerColor)
+        //
         mBorderWidth = typedArray.getDimension(R.styleable.ImitationQQStepNumberView_borderWidth,
                 mBorderWidth)
+        //字体大小和颜色
         mStepTextSize = typedArray.getDimension(R.styleable.ImitationQQStepNumberView_textSize,
                 mStepTextSize.toFloat()).toInt()
         mStepTextColor = typedArray.getColor(R.styleable.ImitationQQStepNumberView_textColor,
@@ -52,10 +56,10 @@ class ImitationQQStepNumberView : View {
 
         //同一个画笔也能处理，不过每次都需要重新设置画笔颜色等.
         mOuterPaint.apply {
-            isAntiAlias = true
+            isAntiAlias = true //抗锯齿
             color = mOuterColor
-            strokeWidth = mBorderWidth
-            //STROKE 画线模式 ,
+            strokeWidth = mBorderWidth //粗细
+            //STROKE 画线模式(描边) ○ ， Fill 填充模式 ●
             style = Paint.Style.STROKE
             //Cap指定了对描边线和路径的开始和结束的处理
             strokeCap = Paint.Cap.ROUND
@@ -86,12 +90,13 @@ class ImitationQQStepNumberView : View {
         //宽度高度不一直取最小值,确保正方形
         var width = MeasureSpec.getSize(widthMeasureSpec)
         var height = MeasureSpec.getSize(heightMeasureSpec)
+
         //如果是warp_content
         if(widthMode == MeasureSpec.AT_MOST){
-            width = 180
+            width = 280
         }
         if(heightMode == MeasureSpec.AT_MOST){
-            height = 180
+            height = 280
         }
         setMeasuredDimension(width.coerceAtMost(height), width.coerceAtMost(height))
     }

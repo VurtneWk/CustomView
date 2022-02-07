@@ -34,9 +34,9 @@ class ImitationQQStepNumberActivity : AppCompatActivity() {
 
         mImitationQQStepNumberView.setMaxStep(4000F)
 
-
+        var mCurrentStep = 1000F
         // 属性动画 后面讲的内容
-        val valueAnimator = ObjectAnimator.ofFloat(0f, 3000f)
+        val valueAnimator = ObjectAnimator.ofFloat(0f, mCurrentStep)
         valueAnimator.duration = 2000
         valueAnimator.interpolator = DecelerateInterpolator()
         valueAnimator.addUpdateListener { animation ->
@@ -44,13 +44,12 @@ class ImitationQQStepNumberActivity : AppCompatActivity() {
             mImitationQQStepNumberView.setCurrentStep(currentStep)
         }
         valueAnimator.start()
-
         //
-//        var mCurrentStep = 1000F
+
         findViewById<Button>(R.id.mBtnAdd).setOnClickListener {
-            Toast.makeText(this, "已取消setOnClickListener", Toast.LENGTH_SHORT).show()
-//            mCurrentStep += 100
-//            mImitationQQStepNumberView.setCurrentStep(mCurrentStep)
+//            Toast.makeText(this, "已取消setOnClickListener", Toast.LENGTH_SHORT).show()
+            mCurrentStep += 100
+            mImitationQQStepNumberView.setCurrentStep(mCurrentStep)
         }
 
 
