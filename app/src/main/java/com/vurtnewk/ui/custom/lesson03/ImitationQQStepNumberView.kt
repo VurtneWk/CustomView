@@ -13,6 +13,7 @@ import com.vurtnewk.ui.custom.R
  */
 class ImitationQQStepNumberView : View {
 
+    //
     private var mOuterColor = Color.RED
     private var mInnerColor = Color.BLUE
     private var mBorderWidth = 2F
@@ -26,6 +27,9 @@ class ImitationQQStepNumberView : View {
     private var mCurrentStep = 0F
     private val bounds = Rect()
 
+    companion object {
+        const val VIEW_DEFAULT_WIDTH = 280
+    }
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -42,17 +46,25 @@ class ImitationQQStepNumberView : View {
         mOuterColor = typedArray.getColor(R.styleable.ImitationQQStepNumberView_outerColor, mOuterColor)
         mInnerColor = typedArray.getColor(R.styleable.ImitationQQStepNumberView_innerColor, mInnerColor)
         //
-        mBorderWidth = typedArray.getDimension(R.styleable.ImitationQQStepNumberView_borderWidth,
-                mBorderWidth)
+        mBorderWidth = typedArray.getDimension(
+            R.styleable.ImitationQQStepNumberView_borderWidth,
+            mBorderWidth
+        )
         //字体大小和颜色
-        mStepTextSize = typedArray.getDimension(R.styleable.ImitationQQStepNumberView_textSize,
-                mStepTextSize.toFloat()).toInt()
-        mStepTextColor = typedArray.getColor(R.styleable.ImitationQQStepNumberView_textColor,
-                mStepTextColor)
+        mStepTextSize = typedArray.getDimension(
+            R.styleable.ImitationQQStepNumberView_textSize,
+            mStepTextSize.toFloat()
+        ).toInt()
+        mStepTextColor = typedArray.getColor(
+            R.styleable.ImitationQQStepNumberView_textColor,
+            mStepTextColor
+        )
         typedArray.recycle()
 
-        Logger.d("mOuterColor:$mOuterColor, mInnerColor:$mInnerColor, mBorderWidth:$mBorderWidth," +
-                " mStepTextSize:$mStepTextSize, mStepTextColor:$mStepTextColor")
+        Logger.d(
+            "mOuterColor:$mOuterColor, mInnerColor:$mInnerColor, mBorderWidth:$mBorderWidth," +
+                    " mStepTextSize:$mStepTextSize, mStepTextColor:$mStepTextColor"
+        )
 
         //同一个画笔也能处理，不过每次都需要重新设置画笔颜色等.
         mOuterPaint.apply {
@@ -82,6 +94,9 @@ class ImitationQQStepNumberView : View {
         }
     }
 
+    /**
+     * 测量View大小
+     */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         //调用者在布局文件中 可能是wrap_content , 或 宽度高度不一致
@@ -92,19 +107,29 @@ class ImitationQQStepNumberView : View {
         var height = MeasureSpec.getSize(heightMeasureSpec)
 
         //如果是warp_content
-        if(widthMode == MeasureSpec.AT_MOST){
-            width = 280
+        if (widthMode == MeasureSpec.AT_MOST) {
+            width = VIEW_DEFAULT_WIDTH
         }
-        if(heightMode == MeasureSpec.AT_MOST){
-            height = 280
+        if (heightMode == MeasureSpec.AT_MOST) {
+            height = VIEW_DEFAULT_WIDTH
         }
+        //This method must be called by onMeasure(int, int) to store the measured width and measured height.
+        //Failing to do so will trigger an exception at measurement time.
         setMeasuredDimension(width.coerceAtMost(height), width.coerceAtMost(height))
     }
 
+    /**
+     * This is called during layout when the size of this view has changed.
+     * If you were just added to the view hierarchy, you're called with the old values of 0.
+     */
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        rectF = RectF(mBorderWidth / 2, mBorderWidth / 2,
-                width - mBorderWidth / 2, width - mBorderWidth / 2)
+        rectF = RectF(
+            mBorderWidth / 2, //左右都减
+            mBorderWidth / 2,
+            width - mBorderWidth / 2,
+            width - mBorderWidth / 2
+        )
         Logger.d("rectF-> $rectF")
     }
 
@@ -117,7 +142,7 @@ class ImitationQQStepNumberView : View {
         //外圆弧 （要预留位置.如果是0,这弧形显示不全）
         /**
          * rectF: 给一个矩形,在这个矩形的坐标系内画图
-         * startAngle:起始位置, 十  右X轴为0,顺时针为针
+         * startAngle:起始位置, 十  右X轴为0,顺时针为正
          * sweepAngle:弧形扫过的角度,
          * useCenter为true 在这里是一个封闭的图形
          * mPaint: 画笔
@@ -127,18 +152,26 @@ class ImitationQQStepNumberView : View {
 
         //内圆弧 百分比 使用者设置
         if (mMaxStep == 0F) return
+        //计算当前的角度
         val sweepAngle = mCurrentStep / mMaxStep * 270F
         canvas.drawArc(rectF, 135F, sweepAngle, false, mInnerPaint)
 
         //写文字 mCurrentStep.toInt().toString()
         //计算文字长度
         val str = mCurrentStep.toInt().toString()
+        //
         mTextPaint.getTextBounds(str, 0, str.length, bounds)
-        //起点X 坐标
+        Logger.d("bounds-> $bounds , ${bounds.width()} , ${bounds.height()}")
+        //起点X 坐标 文字绘制的起始坐标
+        // width/2 - bounds.width/2 可能更容易理解怎么计算出来的
         val x = (width - bounds.width()) / 2.toFloat()
         //高度上baseline
         val baseline = (mTextPaint.fontMetricsInt.bottom - mTextPaint.fontMetricsInt.top) / 2 -
                 mTextPaint.fontMetricsInt.bottom + height / 2
+
+//        val baseline = (mTextPaint.fontMetricsInt.descent - mTextPaint.fontMetricsInt.ascent) / 2 -
+//                mTextPaint.fontMetricsInt.descent + height / 2
+
         canvas.drawText(str, x, baseline.toFloat(), mTextPaint)
     }
 

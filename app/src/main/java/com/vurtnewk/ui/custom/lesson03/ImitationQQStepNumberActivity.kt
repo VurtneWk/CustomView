@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.vurtnewk.ui.custom.R
 
-
+/**
+ * 防QQ步数
+ */
 class ImitationQQStepNumberActivity : AppCompatActivity() {
 
 

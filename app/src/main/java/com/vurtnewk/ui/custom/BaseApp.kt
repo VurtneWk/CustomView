@@ -18,7 +18,7 @@ class BaseApp : Application() {
         val formatStrategy: FormatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)
                 .methodCount(1)
-                .tag("VurtnewkCustom") // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .tag("CustomView") // (Optional) Global tag for every log. Default PRETTY_LOGGER
                 .build()
         Logger.addLogAdapter(AndroidLogAdapter(formatStrategy))
     }

@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.widget.Button
 import com.vurtnewk.ui.custom.R
 
-
+/**
+ * 字体左右变色
+ */
 class Lesson04Activity : AppCompatActivity() {
 
     companion object {
